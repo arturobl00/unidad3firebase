@@ -17,17 +17,37 @@
   // Variable para comunuicarme con mi html
   var app = document.getElementById('app');
 
+  // ejemplo de innerHTML app.innerHTML = '<p>Hola que hay</p>';
+
   // Consumir datos de Realtime
+  
   /*var coleccion = firebase.database().ref().child('mensaje');
   coleccion.on('value', (snaphot) => {
       console.log(snaphot.val())
   });*/
 
-  var coleccion = basedatos.ref().child('saludo');
-  coleccion.on('value', (snapshot) => {
-    console.log(snapshot.val());
-    app.innerText = snapshot.val();
-  });
+  function readval(){
+    var coleccion = basedatos.ref().child('users/username/');
+      coleccion.on('value', (snapshot) => {
+      console.log(snapshot.val());
+      app.innerText = 'Resultado de coleccion users/username: ' + snapshot.val();
+    });
+  }
+  
+  function readget(){
+      basedatos.ref('users').child('username').get().then(function(snapshot) {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        app.innerText = 'Resultado de coleccion users/username: ' + snapshot.val();
+      }
+      else {
+        console.log("No data available");
+        app.innerText = 'No data available';
+      }
+    }).catch(function(error) {
+      console.error(error);
+    });
+  }
 
 
   //Agregar colección a base de datos
@@ -36,5 +56,7 @@
       username: "arturobl00",
       email: "4rthurbl00@gmail.com",
     });
+    console.log("Agregar datos");
   }
+  
   
